@@ -1,6 +1,7 @@
 import { createContext, ReactNode, useContext } from "react";
 import { useAppwrite } from "../hooks/useAppWrite";
 import { ApiGetUser } from "../appwrite/apicall";
+import React from "react";
 
 interface User {
   $id: string;
@@ -42,7 +43,7 @@ export const GlobalContextProvider = ({ children }: ContextProviderType) => {
     <GlobalContext.Provider
       value={{ user, isLoggedIn, isBeingLoad: loading, fetchAgain }}
     >
-      {children}
+      <>{children}</>
     </GlobalContext.Provider>
   );
 };
