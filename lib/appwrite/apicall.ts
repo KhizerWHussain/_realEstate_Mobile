@@ -1,6 +1,11 @@
 import * as linking from "expo-linking";
-import { appWriteAccount, appWriteAvatar } from "./appwrite";
-import { OAuthProvider } from "react-native-appwrite";
+import {
+  appWriteAccount,
+  appWriteAvatar,
+  appWriteConfig,
+  appWriteDatabases,
+} from "./appwrite";
+import { OAuthProvider, Query } from "react-native-appwrite";
 import { openAuthSessionAsync } from "expo-web-browser";
 
 export const ApiSignin = async () => {
@@ -74,5 +79,65 @@ export const ApiGetUser = async () => {
   } catch (error) {
     console.error(error);
     return false;
+  }
+};
+
+export const APIGetProperties = async () => {
+  try {
+    const result = await appWriteDatabases.listDocuments(
+      appWriteConfig.databaseId!,
+      appWriteConfig.propertiesCollectionID,
+      [Query.orderAsc("$createdAt"), Query.limit(5)]
+    );
+
+    return result.documents;
+  } catch (error) {
+    console.error("error =>", error);
+    return [];
+  }
+};
+
+interface APIGetPropertiesUsingQueryType {
+  filter: string;
+  query: string;
+  limit?: number;
+}
+
+export const APIGetPropertiesUsingQuery = async ({
+  filter,
+  query,
+  limit,
+}: APIGetPropertiesUsingQueryType) => {
+  try {
+    const builtQuery = [Query.orderAsc("$createdAt")];
+
+    if (filter && filter !== "ALL") {
+      builtQuery.push(Query.equal("type", filter));
+    }
+
+    if (query) {
+      builtQuery.push(
+        Query.or([
+          Query.search("name", query),
+          Query.search("address", query),
+          Query.search("type", query),
+        ])
+      );
+    }
+
+    if (limit) {
+      builtQuery.push(Query.limit(limit));
+    }
+
+    const result = await appWriteDatabases.listDocuments(
+      appWriteConfig.databaseId!,
+      appWriteConfig.propertiesCollectionID,
+      builtQuery
+    );
+
+    return result.documents;
+  } catch (error) {
+    console.log("error =>", error);
+    return [];
   }
 };
