@@ -1,10 +1,12 @@
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, TouchableOpacity } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import images from "@/constants/images";
 import { useGlobalContext } from "@/lib/context/globalProvider";
 import icons from "@/constants/icons";
 import SearchBar from "@/components/search";
+import { Card, FeaturedCard } from "@/components/cards";
+import Filters from "@/components/filters";
 
 function Base() {
   const { user } = useGlobalContext();
@@ -29,8 +31,40 @@ function Base() {
           </View>
           <Image source={icons.bell} className="size-6" />
         </View>
+        <SearchBar />
+        <View className="my-5">
+          <View className="flex flex-row items-center justify-between">
+            <Text className="font-rubikBold text-black-300 text-xl">
+              Featured
+            </Text>
+            <TouchableOpacity>
+              <Text className="text-base font-rubikBold text-primary-300">
+                See All
+              </Text>
+            </TouchableOpacity>
+          </View>
+          {/* featured card section */}
+          <View className="flex flex-row mt-5 gap-5">
+            <FeaturedCard />
+            <FeaturedCard />
+          </View>
+        </View>
+        <View className="flex flex-row items-center justify-between">
+          <Text className="font-rubikBold text-black-300 text-xl">
+            Our Recommendation
+          </Text>
+          <TouchableOpacity>
+            <Text className="text-base font-rubikBold text-primary-300">
+              See All
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <Filters />
+        <View className="flex flex-row mt-5 gap-5">
+          {/* <Card /> */}
+          {/* <Card /> */}
+        </View>
       </View>
-      <SearchBar />
     </SafeAreaView>
   );
 }
