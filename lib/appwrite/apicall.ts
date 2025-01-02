@@ -141,3 +141,17 @@ export const APIGetPropertiesUsingQuery = async ({
     return [];
   }
 };
+
+export const APIGetPropertyById = async ({ id }: { id: string }) => {
+  try {
+    const result = await appWriteDatabases.getDocument(
+      appWriteConfig.databaseId!,
+      appWriteConfig.propertiesCollectionID!,
+      id
+    );
+    return result;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};

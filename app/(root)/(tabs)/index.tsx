@@ -17,11 +17,13 @@ import {
   APIGetProperties,
   APIGetPropertiesUsingQuery,
 } from "@/lib/appwrite/apicall";
-import { Card, FeaturedCard } from "@/components/cards";
-import SearchBar from "@/components/search";
-import Filters from "@/components/filters";
+
 import { useGlobalContext } from "@/lib/context/globalProvider";
 import NoResults from "@/components/noresult";
+import { Card, FeaturedCard } from "@/components/Cards";
+
+import Filters from "@/components/Filters";
+import SearchBar from "@/components/Search";
 
 const Home = () => {
   const { user } = useGlobalContext();
